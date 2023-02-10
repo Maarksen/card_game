@@ -16,8 +16,8 @@ fun main() {
         var interval : Long = 1L
         var next_practice : String = date
 
-        fun show_card(){
-            println("Date = ${LocalDateTime.now().format(formatter)}")
+        fun show_card(date: LocalDateTime){
+            println("Date: ${date.format(formatter)}")
             println("$question [ENTER]")
             val input = readln()
 
@@ -27,8 +27,24 @@ fun main() {
                 quality = difficulty
             }
 
-            update(LocalDateTime.now())
+            update(date)
             details()
+        }
+
+        fun simulate(num_days : Long){
+            println("Simulation of the card $question")
+            val now = LocalDateTime.now()
+            show_card(now)
+            var jump = interval
+            for(day in 1 .. num_days){
+                val time = now.plusDays(day).format(formatter)
+                if(day == jump){
+                    show_card(now.plusDays(day))
+                    jump += interval
+                }
+                else
+                    println("Date: $time")
+            }
         }
 
         fun easiness() : Double{
@@ -36,7 +52,7 @@ fun main() {
         }
 
         fun repetition() : Int{
-            if(quality <= 3)
+            if(quality < 3)
                 return 0
             else
                 return (repetitions + 1)
@@ -67,7 +83,7 @@ fun main() {
     cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), "To wake up","Despertarse"))
     cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), "To eat","Comer"))
 
-
-    cards.forEach{ it.show_card()}
+    cards[0].simulate(10)
+    //cards.forEach{ it.show_card(LocalDateTime.now())}
 
 }
