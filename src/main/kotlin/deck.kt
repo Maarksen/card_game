@@ -19,26 +19,17 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
     }
 
     fun simulate(num_days : Long){
-        println("Simulation of the deck $name")
         val now = LocalDateTime.now()
+
+        println("Simulation of the deck $name")
         println("Date: ${now.format(formatter)}")
-        //for(card in cards) {
-            cards.forEach{it.show_card(now)}
-            //cards.forEach{println("hello ${it.interval} $now")}
-            //card.update(now)
-            //var jump = card.interval
-        //cards.forEach{if(it.interval == num_days) it.show_card(now.plusDays(day))}
-            for (day in 1..num_days) {
-                val time = now.plusDays(day).format(formatter)
-                println("Date: $time")
-                cards.forEach{if(it.next_practice == now.plusDays(day).format(formatter)) it.show_card(now.plusDays(day))}
-                /*cards.forEach{println("${it.next_practice} == ${now.plusDays(day).format(formatter)}")}
-                cards.forEach{println(it.next_practice == now.plusDays(day).format(formatter))}*/
-               // cards.forEach{println(it.interval)}
-                /*if (day == jump) {
-                } else
-                    println("Date: $time")
-            }*/
+
+        cards.forEach{it.show_card(now)}
+
+        for (day in 1..num_days) {
+            val time = now.plusDays(day).format(formatter)
+            println("Date: $time")
+            cards.forEach{if(it.next_practice == now.plusDays(day).format(formatter)) it.show_card(now.plusDays(day))}
         }
     }
 }
