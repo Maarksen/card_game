@@ -26,7 +26,7 @@ fun main(){
         when (choice) {
             1 -> deck.add_card()
             2 -> deck.cards.forEach{println("${it.question} -> ${it.answer}")}
-            3 -> deck.simulate(20)
+            3 -> deck.simulate(10)
             4 -> end = true
             else -> println("ERROR")
         }
