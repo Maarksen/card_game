@@ -1,9 +1,16 @@
 import java.time.LocalDateTime
 import java.util.*
 
+object Collection{
+    val decks = mutableListOf<Deck>()
+    val cards = mutableListOf<Card>()
+}
+
+
 fun main(){
 
-    val deck = Deck(UUID.randomUUID().toString(), "initial name")
+    val card_deck = Deck(UUID.randomUUID().toString(), "English")
+    val cloze_deck = Deck(UUID.randomUUID().toString(), "English")
 
     val cards = mutableListOf<Card>()
     cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), "To wake up","Despertarse"))
@@ -24,9 +31,9 @@ fun main(){
         val choice = readln().toInt()
 
         when (choice) {
-            1 -> deck.add_card()
-            2 -> deck.cards.forEach{println("${it.question} -> ${it.answer}")}
-            3 -> deck.simulate(10)
+            1 -> card_deck.add_card()
+            2 -> card_deck.cards.forEach{println("${it.question} -> ${it.answer}")}
+            3 -> card_deck.simulate(10)
             4 -> end = true
             else -> println("ERROR")
         }

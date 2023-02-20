@@ -4,8 +4,8 @@ import java.util.*
 import kotlin.math.max
 import kotlin.math.roundToLong
 
-class Card(var id: String = UUID.randomUUID().toString(), var date: String = LocalDateTime.now().toString(),
-           var question: String, var answer: String){
+open class Card(var id: String = UUID.randomUUID().toString(), var date: String = LocalDateTime.now().toString(),
+                open var question: String, open var answer: String){
 
     val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
@@ -15,8 +15,7 @@ class Card(var id: String = UUID.randomUUID().toString(), var date: String = Loc
     var interval : Long = 1L
     var next_practice : String = date
 
-    fun show_card(date: LocalDateTime){
-        //println("Date: ${date.format(formatter)}")
+    open fun show_card(date: LocalDateTime){
         println("$question [ENTER]")
         val input = readln()
 
@@ -30,7 +29,7 @@ class Card(var id: String = UUID.randomUUID().toString(), var date: String = Loc
         details()
     }
 
-    fun simulate(num_days : Long){
+    open fun simulate(num_days : Long){
         println("Simulation of the card $question")
         val now = LocalDateTime.now()
         show_card(now)

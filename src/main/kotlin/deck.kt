@@ -9,13 +9,24 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
     var cards = mutableListOf<Card>()
 
     fun add_card(){
+        println("Adding card to $name deck.")
+        println("Type the type of the question.[1/2]")
+        val q_type = readln().toInt()
         println("Type the question.")
         val question = readln()
         println("Type the answer.")
         val answer = readln()
 
-        cards.add(Card(UUID.randomUUID().toString(),  LocalDateTime.now().toString(), question, answer))
-        println("Card added successfully.")
+        if(q_type == 1) {
+            cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
+            println("Card added successfully.")
+        }
+        else if(q_type == 2){
+            cards.add(Cloze(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
+            println("Card added successfully.")
+        }
+        else
+            println("[ERROR] Wrong Input")
     }
 
     fun simulate(num_days : Long){
