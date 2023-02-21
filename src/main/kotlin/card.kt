@@ -19,7 +19,7 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
         println("$question [ENTER]")
         val input = readln()
 
-        if(input == " "){
+        if(input == ""){
             println("$answer [TYPE : 0 -> DIFFICULT | 3 -> DOUBT | 5 -> EASY]")
             val difficulty = readln().toInt()
             quality = difficulty

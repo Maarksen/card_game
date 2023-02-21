@@ -11,7 +11,12 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
     fun add_card(){
         println("Adding card to $name deck.")
         println("Type the type of the question.[1/2]")
-        val q_type = readln().toInt()
+
+        val q_type = readln().toIntOrNull()?: "[ERROR] wrong input"
+        if(q_type != 1 && q_type != 2){
+            println("[ERROR] wrong input")
+            return
+        }
         println("Type the question.")
         val question = readln()
         println("Type the answer.")
