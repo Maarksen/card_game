@@ -75,5 +75,25 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
     fun details(){
         println("eas = ${"%.2f".format(easiness)} rep = $repetitions int = $interval next = $next_practice")
     }
+
+    override fun toString(): String {
+        return "card | $question | $answer | $date | $id | $easiness | $repetitions | $interval | $next_practice"
+    }
+
+    companion object {
+        fun fromString(line: String): Card {
+            val chunks = line.split(" | ")
+            chunks.forEach { it.trim() }
+
+            val card = Card(chunks[4], chunks[3], chunks[1], chunks[2])
+            card.easiness = chunks[5].toDouble()
+            card.repetitions = chunks[6].toInt()
+            card.interval = chunks[7].toLong()
+            card.next_practice = chunks[8]
+
+            return card
+        }
+    }
+
 }
 

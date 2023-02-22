@@ -6,7 +6,6 @@ object Collection{
     val cards = mutableListOf<Card>()
 }
 
-
 fun main(){
 
     val card_deck = Deck(UUID.randomUUID().toString(), "English")
@@ -25,7 +24,9 @@ fun main(){
         println("1. ADD CARD [1]")
         println("2. LIST OF CARDS [2]")
         println("3. SIMULATION [3]")
-        println("4. EXIT [4]")
+        println("4. READ CARDS FROM FILE [4]")
+        println("5. WRITE CARDS TO FILE [5]")
+        println("6. EXIT [6]")
         println("CHOOSE AN OPTION.")
 
         val choice = readln().toInt()
@@ -34,10 +35,10 @@ fun main(){
             1 -> card_deck.add_card()
             2 -> card_deck.cards.forEach{println("${it.question} -> ${it.answer}")}
             3 -> card_deck.simulate(10)
-            4 -> end = true
+            4 -> card_deck.readCards()
+            5 -> card_deck.writeCards()
+            6 -> end = true
             else -> println("ERROR")
         }
     }
-
-
 }

@@ -1,3 +1,5 @@
+import java.io.File
+import java.io.InputStream
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -46,6 +48,34 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
             val time = now.plusDays(day).format(formatter)
             println("Date: $time")
             cards.forEach{if(it.next_practice == now.plusDays(day).format(formatter)) it.show_card(now.plusDays(day))}
+        }
+    }
+
+    fun writeCards(){
+        println("Type the name of the file.")
+        var file = File(readln())
+        file.createNewFile()
+
+        file.printWriter().use { out ->
+            cards.forEach {
+                out.println(it.toString())
+            }
+        }
+    }
+
+    fun readCards(){
+        println("Type the name of the file.")
+        val file = readln()
+
+        val inputStream: InputStream = File(file).inputStream()
+        inputStream.bufferedReader().forEachLine {
+            if (it.isNotBlank()) {
+                val chunks = it.split("|")
+                if (chunks[0].trim() == "card")
+                    cards.add(Card.fromString(it))
+                else
+                    cards.add(Cloze.fromString(it))
+            }
         }
     }
 }
