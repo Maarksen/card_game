@@ -7,7 +7,7 @@ import kotlin.math.roundToLong
 open class Card(var id: String = UUID.randomUUID().toString(), var date: String = LocalDateTime.now().toString(),
                 open var question: String, open var answer: String){
 
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     var quality : Int = 0
     var easiness : Double = 2.5
@@ -45,18 +45,18 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
         }
     }
 
-    fun easiness() : Double{
+    private fun easiness() : Double{
         return max(1.3, easiness + 0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
     }
 
-    fun repetition() : Int{
+    private fun repetition() : Int{
         if(quality < 3)
             return 0
         else
             return (repetitions + 1)
     }
 
-    fun interval() : Long {
+    private fun interval() : Long {
         if(repetitions <= 1)
             return 1
         else if(repetitions == 2)
@@ -94,6 +94,5 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
             return card
         }
     }
-
 }
 

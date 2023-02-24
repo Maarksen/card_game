@@ -5,8 +5,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
-    var date = LocalDateTime.now().toString()
-    val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
 
     var cards = mutableListOf<Card>()
 
@@ -24,17 +23,29 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
         println("Type the answer.")
         val answer = readln()
 
-        if(q_type == 1) {
-            cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
-            println("Card added successfully.")
+        when (q_type) {
+            1 -> {
+                cards.add(Card(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
+                println("Card added successfully.")
+            }
+            2 -> {
+                cards.add(Cloze(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
+                println("Card added successfully.")
+            }
+            else -> println("[ERROR] Wrong Input")
         }
-        else if(q_type == 2){
-            cards.add(Cloze(UUID.randomUUID().toString(), LocalDateTime.now().toString(), question, answer))
-            println("Card added successfully.")
-        }
-        else
-            println("[ERROR] Wrong Input")
     }
+
+    fun remove_card() {
+        println("Type the question.")
+        val delete = readln()
+
+        if (cards.removeIf { it.question.trim() == delete })
+            println("Card removed successfully.")
+        else
+            println("[ERROR] Card was not found.")
+    }
+
 
     fun simulate(num_days : Long){
         val now = LocalDateTime.now()
@@ -53,7 +64,7 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
 
     fun writeCards(){
         println("Type the name of the file.")
-        var file = File(readln())
+        val file = File(readln())
         file.createNewFile()
 
         file.printWriter().use { out ->
