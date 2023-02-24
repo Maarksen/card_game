@@ -10,6 +10,7 @@ fun main(){
         println("Type the name of the deck.")
         val name = readln()
         decks.add(Deck(UUID.randomUUID().toString(), name))
+        println("Deck added successfully.")
     }
 
     fun remove_deck(){
@@ -23,14 +24,17 @@ fun main(){
     }
 
     fun choose_deck(){
-        println("Type the name of the deck.")
-        decks.forEach {
-            if(it == decks[decks.lastIndex]) println(it.name)
-            else print("${it.name} | ")
+        if(decks.isNotEmpty()) {
+            println("Type the name of the deck.")
+            decks.forEach {
+                if (it == decks[decks.lastIndex]) println(it.name)
+                else print("${it.name} | ")
+            }
+            val name = readln()
+            decks.forEach { if (it.name == name) card_deck = it }
         }
-        println()
-        val name = readln()
-        decks.forEach { if(it.name == name) card_deck = it}
+        else
+            println("[ERROR] No deck found.")
     }
 
     var end = false
@@ -47,6 +51,10 @@ fun main(){
 
         val choice = readln().toInt()
 
+        if(choice in 4..9 && !::card_deck.isInitialized){
+            println("[ERROR] No deck found.")
+            continue
+        }
         when (choice) {
             1 -> create_deck()
             2 -> remove_deck()
