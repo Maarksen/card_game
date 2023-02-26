@@ -60,6 +60,41 @@ class Deck(var id : String = UUID.randomUUID().toString(), var name : String){
             println("Date: $time")
             cards.forEach{if(it.next_practice == now.plusDays(day).format(formatter)) it.show_card(now.plusDays(day))}
         }
+        println("Do you want to see the statistics? [yes/no]")
+        if(readln().trim().uppercase() == "YES"){
+            statistics()
+        }
+        else if(readln().trim().uppercase() != "NO")
+            println("[ERROR] wrong input")
+    }
+
+    private fun statistics(){
+        var sum_calls = 0; var sum_diff = 0; var sum_doubt = 0; ; var sum_easy = 0
+        val now = LocalDateTime.now()
+        var sum_eas = 0.0
+
+        cards.forEach{
+            sum_eas += it.average_easiness
+            sum_calls += it.num_calls
+            sum_diff += it.num_diff
+            sum_doubt += it.num_doubt
+            sum_easy += it.num_easy
+        }
+        println("------------------STATISTICS------------------")
+        println("Number of DIFFICULT questions: $sum_diff")
+        println("Number of DOUBT questions: $sum_doubt")
+        println("Number of EASY questions: $sum_easy")
+        println("The average easiness was ${"%.2f".format(sum_eas/sum_calls)}.")
+        println("The success rate was ${"%.2f".format((sum_easy.toDouble()/sum_calls.toDouble()) * 100.0)}%.")
+
+        for (day in 1..30) {
+            var num_cards = 0
+            val time = now.plusDays(day.toLong()).format(formatter)
+            cards.forEach{if(it.next_practice == now.plusDays(day.toLong()).format(formatter)) num_cards++}
+            if(num_cards != 0)
+                println("On $time there are $num_cards questions to answer.")
+        }
+        println("----------------------------------------------")
     }
 
     fun writeCards(){

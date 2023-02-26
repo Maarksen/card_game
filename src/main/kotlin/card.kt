@@ -15,12 +15,19 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
     var interval : Long = 1L
     var next_practice : String = date
 
+    //statistics
+    var average_easiness : Double = 0.0
+    var num_calls : Int = 0
+    var num_diff : Int = 0
+    var num_doubt : Int = 0
+    var num_easy : Int = 0
+
     open fun show_card(date: LocalDateTime){
-        println("$question [ENTER]")
+        println("${question.trim()} [ENTER]")
         val input = readln()
 
         if(input == ""){
-            println("$answer [TYPE : 0 -> DIFFICULT | 3 -> DOUBT | 5 -> EASY]")
+            println("${answer.trim()} [TYPE : 0 -> DIFFICULT | 3 -> DOUBT | 5 -> EASY]")
             val difficulty = readln().toInt()
             quality = difficulty
         }
@@ -67,6 +74,13 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
 
     fun update(curr_date : LocalDateTime){
         easiness = easiness()
+        average_easiness += easiness
+        num_calls ++
+        when(quality){
+            0 -> num_diff++
+            3 -> num_doubt++
+            5 -> num_easy++
+        }
         repetitions = repetition()
         interval = interval()
         next_practice = curr_date.plusDays(interval).format(formatter).toString()
@@ -95,4 +109,3 @@ open class Card(var id: String = UUID.randomUUID().toString(), var date: String 
         }
     }
 }
-

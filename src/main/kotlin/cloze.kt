@@ -5,13 +5,13 @@ class Cloze(id: String = UUID.randomUUID().toString(), date: String = LocalDateT
             override var question: String, override var answer: String) : Card(id, date, question, answer) {
 
     override fun show_card(date: LocalDateTime){
-        println("$question [ENTER] using cloze")
+        println("${question.trim()} [ENTER]")
         val input = readln()
 
         val substring = question.substringAfter('*').substringBefore('*')
 
-        if(input == " "){
-            println("${question.replace(substring, answer).replace("*", "")} [TYPE : 0 -> DIFFICULT | 3 -> DOUBT | 5 -> EASY]")
+        if(input == ""){
+            println("${question.replace(substring, answer).replace("*", "").trim()} [TYPE : 0 -> DIFFICULT | 3 -> DOUBT | 5 -> EASY]")
             val difficulty = readln().toInt()
             quality = difficulty
         }
